@@ -93,7 +93,7 @@ let getCollegeDetails = async (req, res) => {
       name: search.name,
       fullName: search.fullName,
       logoLink: search.logoLink,
-      interest: intern,
+      interests: intern,
     };
 
     res.status(200).send({ status: true, msg: op });
@@ -101,6 +101,6 @@ let getCollegeDetails = async (req, res) => {
     res.status(500).send({ status: false, msg: err.message });
   }
 };
-module.exports.collegeData = collegeData;
-module.exports.internData = internData;
-module.exports.getCollegeDeatils = getCollegeDetails;
+module.exports.collegeData=collegeData
+module.exports.internData=internData
+module.exports.getCollegeDetails=getCollegeDetails
