@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const CollegeSchema = new mongoose.Schema(
   {
@@ -37,8 +38,8 @@ const CollegeSchema = new mongoose.Schema(
         message: "please enter a valid Mobile number",
       },
     },
-    CollegeId: {
-      type: String,
+    collegeId: {
+      type: ObjectId,
       required: true,
       ref: "College",
     },
