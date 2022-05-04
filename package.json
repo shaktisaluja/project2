@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Niladri310609/project-2-internshipGroupX/issues"
   },
-  "homepage": "https://github.com/Niladri310609/project-2-internshipGroupX#readme"
+  "homepage": "https://github.com/Niladri310609/project-2-internshipGroupX#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.3.2",
+    "nodemon": "^2.0.16"
+  }
 }
