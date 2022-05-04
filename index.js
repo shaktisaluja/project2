@@ -9,12 +9,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect("mongodb+srv://REYNIL310609:OnIYmcfVuOkV0Dkr@cluster0.csvzw.mongodb.net/group98database?retryWrites=true&w=majority", 
-
-{
+mongoose.connect("mongodb+srv://REYNIL310609:OnIYmcfVuOkV0Dkr@cluster0.csvzw.mongodb.net/Group98database?retryWrites=true&w=majority", {
     useNewUrlParser: true
 })
-    .then(() => console.log("Hey, Nil! MongoDB_connected go ahead"))
+    .then(() => console.log("Hey Nil, Go ahead ! MongoDB_connected"))
     .catch(err => console.log(err))
 app.use('/', route);
 

@@ -8,6 +8,14 @@ Follow the naming conventions exactly as instructed. The backend code will be in
 Models
 College Model //------------------------------------------
 { name: { mandatory, unique, example iith}, fullName: {mandatory, example `Indian Institute of Technology, Hyderabad`}, logoLink: {mandatory}, isDeleted: {boolean, default: false} }
+
+
+
+
+
+
+
+
 Intern Model//-----------------------------------------
 { name: {mandatory}, email: {mandatory, valid email, unique}, mobile: {mandatory, valid mobile number, unique}, collegeId: {ObjectId, ref to college model, isDeleted: {boolean, default: false}}
 
@@ -36,3 +44,67 @@ To test these apis create a new collection in Postman named Project 2 Internship
 Each api should have a new request in this collection
 Each request in the collection should be rightly named. Eg Create college, Get college details etc
 Each member of each team should have their tests in running state
+Response
+Successful Response structure
+{
+  status: true,
+  data: {
+
+  }
+}
+Error Response structure
+{
+  status: false,
+  message: ""
+}
+Collections samples
+College
+{
+    "name" : "iith",
+    "fullName" : "Indian Institute of Technology, Hyderabad",
+    "logoLink" : "https://functionup.s3.ap-south-1.amazonaws.com/colleges/iith.png",
+    "isDeleted" : false
+}
+Intern
+   {
+    "isDeleted" : false,
+    "name" : "Jane Does",
+    "email" : "jane.doe@iith.in",
+    "mobile" : "90000900000",
+    "collegeId" : ObjectId("888771129c9ea621dc7f5e3b")
+}
+Response samples
+College details
+{
+  "data": {
+    "name": "xyz",
+    "fullName": "Some Institute of Engineering and Technology",
+    "logoLink": "some public s3 link for a college logo",
+    "interests": [
+      {
+        "_id": "123a47301a53ecaeea02be59",
+        "name": "Jane Doe",
+        "email": "jane.doe@miet.ac.in",
+        "mobile": "8888888888"
+      },
+      {
+        "_id": "45692c0e1a53ecaeea02b1ac",
+        "name": "John Doe",
+        "email": "john.doe@miet.ac.in",
+        "mobile": "9999999999"
+      },
+      {
+        "_id": "7898d0251a53ecaeea02a623",
+        "name": "Sukruti",
+        "email": "dummy.email@miet.ac.in",
+        "mobile": "9191919191"
+      },
+      {
+        "_id": "999803da1a53ecaeea02a07e",
+        "name": "Neeraj Kumar",
+        "email": "another.example@miet.ac.in",
+        "mobile": "9898989898"
+      }
+    ]
+  }
+}
