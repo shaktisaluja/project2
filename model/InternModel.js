@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const CollegeSchema = new mongoose.Schema(
+const internSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -17,9 +17,7 @@ const CollegeSchema = new mongoose.Schema(
 
       validate: {
         validator: function (email) {
-          return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-            email
-          );
+          return /^[a-z0-9]{1,}@g(oogle)?mail\.com$/.test(email);
         },
         message: "please enter a valid email address",
       },
@@ -51,4 +49,4 @@ const CollegeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Intern", CollegeSchema);
+module.exports = mongoose.model("Intern", internSchema);

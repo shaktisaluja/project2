@@ -17,14 +17,13 @@ const CollegeSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-    
     },
     isDeleted: {
-        type:Boolean,
-        default:false,
+      type: Boolean,
+      default: false,
     },
-},
-  {timestamps: true }
+  },
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("College", CollegeSchema);

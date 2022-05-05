@@ -1,4 +1,3 @@
-const { query } = require("express");
 const collegeModel = require("../model/CollegeModel");
 const internModel = require("../model/InternModel");
 
@@ -14,13 +13,13 @@ let collegeData = async (req, res) => {
       return res
         .status(400)
         .send({ status: false, msg: "College abbreviation name missing" });
-    if (!data.name.match(/^[a-z]+$/i))
+    if (!data.name.match(/^[a-z]+$/))
       return res
         .status(400)
         .send({ status: false, msg: "Please Enter a valid college Name" });
     if (!data.fullName)
       return res.status(400).send({ status: false, msg: "Full name missing" });
-    if (!data.fullName.match(/[a-zA-Z\s]\,[a-zA-Z\s]/))
+    if (!data.fullName.match(/[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/))
       return res
         .status(400)
         .send({ status: false, msg: "Please Enter a valid Full Name" });
@@ -32,7 +31,7 @@ let collegeData = async (req, res) => {
     let result = await collegeModel.create(data);
     return res.status(201).send({ result });
   } catch (err) {
-    res.status(500).send({ status: false, data: err.message });
+    res.satus(500).send({ status: false, msg: err.message });
   }
 };
 //========================================================== API for Intern ======================================================================
@@ -51,6 +50,7 @@ let internData = async (req, res) => {
         .send({ status: false, msg: "Please Enter a valid Intern Name" });
     if (!data.email)
       return res.status(404).send({ status: false, msg: "email missing" });
+
     if (!data.collegeId)
       return res.status(404).send({ status: false, msg: "CollegeId missing" });
     if (!data.mobile)
@@ -68,6 +68,7 @@ let internData = async (req, res) => {
     return res.status(500).send({ statuS: false, msg: err.message });
   }
 };
+//=========================================================== GET Api For Colleges=========================================================
 let getCollegeDetails = async (req, res) => {
   try {
     let data = req.query.name;
@@ -78,12 +79,10 @@ let getCollegeDetails = async (req, res) => {
         .send({ status: false, msg: "enter college name or Query missing" });
 
     if (!data.match(/^[a-z]+$/i))
-      return res
-        .status(400)
-        .send({
-          status: false,
-          msg: "Please Enter a valid college Name in query",
-        });
+      return res.status(400).send({
+        status: false,
+        msg: "Please Enter a valid college Name in query",
+      });
     let search = await collegeModel.findOne({ name: data });
     if (!search)
       return res.status(400).send({ status: false, msg: "No College Found" });
@@ -101,6 +100,6 @@ let getCollegeDetails = async (req, res) => {
     res.status(500).send({ status: false, msg: err.message });
   }
 };
-module.exports.collegeData=collegeData
-module.exports.internData=internData
-module.exports.getCollegeDetails=getCollegeDetails
+module.exports.collegeData = collegeData;
+module.exports.internData = internData;
+module.exports.getCollegeDetails = getCollegeDetails;
