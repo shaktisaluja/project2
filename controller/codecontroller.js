@@ -20,14 +20,22 @@ let collegeData = async (req, res) => {
         .send({ status: false, msg: "Please Enter a valid college Name" });
         if(data.name) {
         let validName = await collegeModel.findOne({name:data.name})
+        if(validName)
           return res.status(400).send({status:false , msg: "College name already exists"})
         }
     if (!data.fullName)
       return res.status(400).send({ status: false, msg: "Full name missing" });
+
     if (!data.fullName.match(/[a-zA-Z]\,[a-zA-Z ]+$/))
       return res
         .status(400)
         .send({ status: false, msg: "Please Enter a valid Full Name" });
+
+        if(data.fullName) {
+          let validfullName = await collegeModel.findOne({fullName:data.fullName})
+          if(validfullName){
+            return res.status(400).send({status:false , msg: "College fullname already exists"})}
+          }
     if (!data.logoLink)
       return res
         .status(404)
