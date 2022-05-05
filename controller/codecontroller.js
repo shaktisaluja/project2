@@ -13,13 +13,18 @@ let collegeData = async (req, res) => {
       return res
         .status(400)
         .send({ status: false, msg: "College abbreviation name missing" });
+    
     if (!data.name.match(/^[a-z]+$/))
       return res
         .status(400)
         .send({ status: false, msg: "Please Enter a valid college Name" });
+        if(data.name) {
+        let validName = await collegeModel.findOne({name:data.name})
+          return res.status(400).send({status:false , msg: "College name already exists"})
+        }
     if (!data.fullName)
       return res.status(400).send({ status: false, msg: "Full name missing" });
-    if (!data.fullName.match(/[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/))
+    if (!data.fullName.match(/[a-zA-Z]\,[a-zA-Z ]+$/))
       return res
         .status(400)
         .send({ status: false, msg: "Please Enter a valid Full Name" });
@@ -31,13 +36,14 @@ let collegeData = async (req, res) => {
     let result = await collegeModel.create(data);
     return res.status(201).send({ result });
   } catch (err) {
-    res.satus(500).send({ status: false, msg: err.message });
+    res.status(500).send({ status: false, msg: err.message });
   }
 };
 //========================================================== API for Intern ======================================================================
 let internData = async (req, res) => {
   try {
     let data = req.body;
+    
     if (Object.keys(data).length == 0)
       return res
         .status(404)
@@ -50,17 +56,30 @@ let internData = async (req, res) => {
         .send({ status: false, msg: "Please Enter a valid Intern Name" });
     if (!data.email)
       return res.status(404).send({ status: false, msg: "email missing" });
+     if(data.email){
+       let validEmail= await internModel.findOne({email:data.email})
+       if(validEmail){
+       return res.status(400).send({status:false, msg:"emailId already exists"})}
+     }
+     if (!data.mobile)
+      return res
+        .status(404)
+        .send({ status: false, msg: "Mobile Number missing" });
+        if(data.mobile){
+          let validMobile= await internModel.findOne({mobile:data.mobile})
+          if(validMobile){
+          return res.status(400).send({status:false , msg: "Mobile Number already exists"})}
+        }
+       
 
     if (!data.collegeId)
       return res.status(404).send({ status: false, msg: "CollegeId missing" });
-    if (!data.mobile)
-      return res
-        .satus(404)
-        .send({ status: false, msg: "Mobile Number missing" });
+    
     let id = data.collegeId;
     let validCollege = await collegeModel.findById(id).catch((err) => null);
     if (!validCollege)
       return res.status(404).send({ status: false, msg: "invalid college id" });
+
 
     let result = await internModel.create(data);
     res.status(201).send({ result });
