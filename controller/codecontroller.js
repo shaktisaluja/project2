@@ -57,34 +57,35 @@ let collegeData = async (req, res) => {
 //========================================================== API for Intern ======================================================================
 let internData = async (req, res) => {
   try {
-    let data = req.body;
+    let {name,email,mobile,collegeName} = req.body;
 
-    if (Object.keys(data).length == 0)
+    if (Object.keys(req.body).length == 0)
       return res
         .status(404)
         .send({ status: false, msg: "plz enter Intern data" });
-    if (!data.name)
+    if (!name)
       return res.status(404).send({ status: false, msg: "Name missing" });
-    if (!data.name.match(/^[a-z]+\s[a-z ]+$/i))
+
+    if (!name.match(/^[a-z]+\s[a-z ]+$/i))
       return res
         .status(400)
         .send({ status: false, msg: "Please Enter a valid Intern Name" });
-    if (!data.email)
+    if (!email)
       return res.status(404).send({ status: false, msg: "email missing" });
-    if (data.email) {
-      let validEmail = await internModel.findOne({ email: data.email });
+    if (email) {
+      let validEmail = await internModel.findOne({ email: email });
       if (validEmail) {
         return res
           .status(400)
           .send({ status: false, msg: "emailId already exists" });
       }
     }
-    if (!data.mobile)
+    if (!mobile)
       return res
         .status(404)
         .send({ status: false, msg: "Mobile Number missing" });
-    if (data.mobile) {
-      let validMobile = await internModel.findOne({ mobile: data.mobile });
+    if (mobile) {
+      let validMobile = await internModel.findOne({ mobile:mobile });
       if (validMobile) {
         return res
           .status(400)
@@ -92,20 +93,23 @@ let internData = async (req, res) => {
       }
     }
 
-    if (!data.collegeId)
-      return res.status(404).send({ status: false, msg: "CollegeId missing" });
-      if (!/^[0-9a-fA-F]{24}$/.test(data.collegeId)){
-        return  res.status(400).send({status:false, message:"Please enter valid 24 characters in collegeId "})
-       
-    }
+    if(!collegeName){
+      return res.status(400).send({ status: false, message: "collegeName is required" })
+      
 
-    let id = data.collegeId;
-    let validCollege = await collegeModel.findById(id).catch((err) => null);
-    if (!validCollege)
-      return res.status(404).send({ status: false, msg: "invalid college id" });
+  }
+  
+  const doc = await collegeModel.findOne({name:collegeName})
+  if(!doc){
+    return res.status(400).send({ status: false, message: "collegeName is not registered" })
+      
+  }
 
-    let result = await internModel.create(data);
-    res.status(201).send({ result });
+  
+  let collegeId = doc._id 
+  const result = await internModel.create({name,email,mobile,collegeId})
+  res.status(201).send({ status: true, data: result });
+
   } catch (err) {
     return res.status(500).send({ statuS: false, msg: err.message });
   }
